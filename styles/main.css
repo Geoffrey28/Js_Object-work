@@ -5,14 +5,12 @@
   position: relative;
 }
 
-
-
 .fightScreen {
   width: 750px;
   height: 450px;
   background: grey;
   position: absolute;
-  display: none;
+  display: block;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
@@ -73,4 +71,8 @@
   background: red;
   text-align: center;
   line-height: 100px;
+}
+
+.close {
+  display: none;
 }

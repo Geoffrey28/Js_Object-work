@@ -7,7 +7,8 @@ var objAll = {
 // querySelector
 var obj = {
   optionsSelect : document.querySelector('.options-select > p'),
-  selectBall : document.querySelector('.selectBall'),
+  selectScreen : document.querySelector('.selectScreen'),
+  fightScreen : document.querySelector('.fightScreen')
 }
 
 
@@ -61,28 +62,48 @@ var trainer = function(name, monsterOne, monsterTwo, monsterThree) {
   //console.log(this);
 }
 
-var red = new trainer('Red', selectedMonster[0], selectedMonster[1]);
-
 var blue = new trainer('Blue', monsterList.Carapuce, monsterList.Salameche, monsterList.Bulbizarre);
+
+// TRAINER PLAYER
+
+
+var red = {
+  name : 'Red',
+  monsters: []
+}
+
 
 
 // METHODS =)
 
 // FOR SELECT
 
-
+var list = monsterList;
 
 function initBall() {
   for (var i = 0; i < objAll.selectBall.length; i++) {
      var getRandom = Math.floor(Math.random() * monsterList.length);
      var random = monsterList[getRandom];
      objAll.selectBall[i].textContent = random.name;
-     monsterList.splice(getRandom, 1);
   }
 }
 
 function selectMonster(el) {
-  selectedMonster.push(el.textContent);
+  for (var i = 0; i < monsterList.length; i++) {
+    if (monsterList[i].name == el.textContent) {
+      red.monsters.push(monsterList[i]);
+      monsterList.splice(i, 1);
+      console.log(red.monsters.length);
+    }
+  }
+
+  if (red.monsters.length < 3) {
+    initBall();
+  } else {
+    obj.selectScreen.classList.add('close');
+    obj.fightScreen.classList.remove('close');
+    console.log(red.monsters);
+  }
 }
 
 // FOR FIGHT
@@ -96,11 +117,15 @@ function displaySkill(monster, objAll) {
  }
 }
 
+function initFight() {
+  
+}
+
 // EVENT LISTENER
 
 for (var i = 0; i < objAll.selectBall.length; i++) {
   objAll.selectBall[i].addEventListener('click', function() {
-
+    selectMonster(this);
   });
 }
 
