@@ -1,11 +1,11 @@
 // querySelectorAll
-var objAll = {
+var ObjAll = {
   skillContainer : document.querySelectorAll('.options-list > p'),
   selectBall : document.querySelectorAll('.selectBall'),
 }
 
 // querySelector
-var obj = {
+var Obj = {
   optionsSelect : document.querySelector('.options-select > p'),
   selectScreen : document.querySelector('.selectScreen'),
   fightScreen : document.querySelector('.fightScreen')
@@ -21,14 +21,14 @@ var skill = function(name, damage) {
 }
 
 var skillList = [
-  scratch = new skill('Scratch', '10'),
-  tackle = new skill('Tackle', '10'),
-  thundershock = new skill('Thundershock', '20'),
-  waterGun = new skill('Water Gun', '20'),
-  ember = new skill('Ember', '20'),
-  razorLeaf = new skill('Razor Leaf', '20'),
-  hyperFang = new skill('Hyper Fang', '20'),
-  rockTomb = new skill('Rock Tomb', '20')
+  scratch = new skill('Scratch', 10),
+  tackle = new skill('Tackle', 10),
+  thundershock = new skill('Thundershock', 20),
+  waterGun = new skill('Water Gun', 20),
+  ember = new skill('Ember', 20),
+  razorLeaf = new skill('Razor Leaf', 20),
+  hyperFang = new skill('Hyper Fang', 20),
+  rockTomb = new skill('Rock Tomb', 20)
 ]
 
 
@@ -44,7 +44,7 @@ var monster = function(name, type, life, skillOne, skillTwo) {
 }
 
 var monsterList = [
-  Pikachu = new monster('Pikachu', 'Electrik', skillList.scratch, skillList.hundershock),
+  Pikachu = new monster('Pikachu', 'Electrik', skillList.scratch, skillList.thundershock),
   Carapuce = new monster('Carapuce', 'Water', skillList.tackle, skillList.waterGun),
   Salameche = new monster('Salameche', 'Fire', skillList.scratch, skillList.ember),
   Bulbizarre = new monster('Bulbizarre', 'Plante', skillList.tackle, skillList.razorLeaf),
@@ -58,7 +58,7 @@ var selectedMonster = [];
 
 var trainer = function(name, monsterOne, monsterTwo, monsterThree) {
   this.name = name;
-  this.monster = [monsterOne, monsterTwo, monsterThree];
+  this.monsters = [monsterOne, monsterTwo, monsterThree];
   //console.log(this);
 }
 
@@ -66,33 +66,35 @@ var blue = new trainer('Blue', monsterList.Carapuce, monsterList.Salameche, mons
 
 // TRAINER PLAYER
 
+/*
+class Player extends trainer {
+  constructor() {
 
-var red = {
-  name : 'Red',
-  monsters: []
+  }
 }
-
+*/
 
 
 // METHODS =)
 
 // FOR SELECT
 
-var list = monsterList;
+var monsterMemory = [];
 
 function initBall() {
-  for (var i = 0; i < objAll.selectBall.length; i++) {
+  for (var i = 0; i < ObjAll.selectBall.length; i++) {
      var getRandom = Math.floor(Math.random() * monsterList.length);
      var random = monsterList[getRandom];
-     objAll.selectBall[i].textContent = random.name;
+     monsterMemory.push(monsterList[getRandom]);
+     monsterList.splice(getRandom, 1);
+     ObjAll.selectBall[i].textContent = random.name;
   }
 }
 
 function selectMonster(el) {
   for (var i = 0; i < monsterList.length; i++) {
-    if (monsterList[i].name == el.textContent) {
+    if (monsterMemory[i].name == el.textContent) {
       red.monsters.push(monsterList[i]);
-      monsterList.splice(i, 1);
       console.log(red.monsters.length);
     }
   }
@@ -100,35 +102,35 @@ function selectMonster(el) {
   if (red.monsters.length < 3) {
     initBall();
   } else {
-    obj.selectScreen.classList.add('close');
-    obj.fightScreen.classList.remove('close');
+    Obj.selectScreen.classList.add('close');
+    Obj.fightScreen.classList.remove('close');
     console.log(red.monsters);
   }
 }
 
 // FOR FIGHT
-function displaySkill(monster, objAll) {
- for (i = 0; i < objAll.skillContainer.length; i++) {
+function displaySkill(monster, ObjAll) {
+ for (i = 0; i < ObjAll.skillContainer.length; i++) {
    for (a = 0; a < monster.skills.length; a++) {
      if (i === a) {
-       objAll.skillContainer[i].textContent = monster.skills[a].name;
+       ObjAll.skillContainer[i].textContent = monster.skills[a].name;
      }
    }
  }
 }
 
 function initFight() {
-  
+
 }
 
 // EVENT LISTENER
 
-for (var i = 0; i < objAll.selectBall.length; i++) {
-  objAll.selectBall[i].addEventListener('click', function() {
+for (var i = 0; i < ObjAll.selectBall.length; i++) {
+  ObjAll.selectBall[i].addEventListener('click', function() {
     selectMonster(this);
   });
 }
 
 initBall();
 
-//console.log(objAll.skillList[0]);
+//console.log(ObjAll.skillList[0]);
